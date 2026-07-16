@@ -16,7 +16,7 @@ commissioned; all work was done against public source code and testnet.
 ### Methodology
 - Full manual read of the in-scope contracts against a TON-specific threat model.
 - Local reproduction harness using Blueprint + @ton/sandbox (in-process TVM),
-  plus custom PoC tests for candidate issues.
+  plus a PoC harness; no candidate issue warranted a standalone PoC.
 - Invariant checks on the AMM math (swap invariant, LP-share accounting,
   rounding direction of the fixed-point library).
 - Message-flow analysis of the async / bounce model and sender-address gating.
