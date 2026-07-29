@@ -48,6 +48,12 @@ bug-bounty scope.
 FunC / Tolk toolchain, Blueprint, @ton/sandbox, custom PoC test harness,
 manual invariant analysis.
 
+### Reproducible artifacts
+- [STON.fi DEX v2 invariant test suites](artifacts/stonfi-v2-invariant-tests)
+  - 5 suites and 6 tests against pinned upstream commit `af0a955cc835af9697cd383e201fefcbe1a6a87e`
+  - Constant-product, stableswap, weighted constant-product and weighted-stableswap coverage
+  - Production-relevant and reference-only tests are separated explicitly
+
 ## Services
 Independent security review of TON / FunC / Tolk smart contracts:
 jetton, vault, vesting, minter, staking, and DEX-style contracts.
