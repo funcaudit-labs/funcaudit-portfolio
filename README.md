@@ -6,15 +6,6 @@ performed to demonstrate methodology and depth. Reviews are independent and not
 commissioned; all work was done against public source code and testnet / local
 TVM emulation.
 
-## Selected findings
-
-- **TON DeFi staking protocol — liveness / availability issue**
-  *(coordinated disclosure in progress).*
-  Identified a share-accounting edge case in a staking contract where a specific
-  unstake sequence can drive the pool into an unusable state, blocking further
-  stakes. Reported privately to the project. Full technical details and PoC are
-  withheld pending remediation and are available on request.
-
 ## Case study — STON.fi dex-core-v2 (independent review)
 
 - Target: STON.fi DEX core v2 (public source, GPL-3.0)
@@ -55,7 +46,7 @@ bug-bounty scope.
 
 ### Tooling used
 FunC / Tolk toolchain, Blueprint, @ton/sandbox, custom PoC test harness,
-manual invariant analysis, Slither / Aderyn / Mythril where applicable.
+manual invariant analysis.
 
 ## Services
 Independent security review of TON / FunC / Tolk smart contracts:
