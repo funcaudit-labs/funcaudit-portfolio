@@ -1,62 +1,43 @@
-# TON / FunC Smart-Contract Security Review — Portfolio
+# funcaudit-labs
 
-Independent smart-contract security research on the TON blockchain (FunC / Tolk)
-by **Ruslan Ibraev**. This repository documents self-directed security reviews
-performed to demonstrate methodology and depth. Reviews are independent and not
-commissioned; all work was done against public source code and testnet / local
-TVM emulation.
+**Invariant test suites for TON smart contracts. You run them. You see the results.**
 
-## Case study — STON.fi dex-core-v2 (independent review)
+We build property-based invariant test suites for FunC/Tolk contracts using Blueprint and @ton/sandbox, run them against your pinned commit, and hand you the suite plus the actual run output. No trust required: every claim we make is a command you can re-run yourself.
 
-- Target: STON.fi DEX core v2 (public source, GPL-3.0)
-- Scope reviewed: router, pool, vault, lp_account, jetton receipt path,
-  stableswap / weighted-stableswap math, funcbox fixed-point library
-- Size: ~4,355 LoC FunC
-- Environment: testnet, local TVM emulation
+## What you get — $600–900, 5 days
 
-### Methodology
-- Full manual read of the in-scope contracts against a TON-specific threat model.
-- Local reproduction harness using Blueprint + @ton/sandbox (in-process TVM),
-  plus a PoC harness.
-- Invariant checks on the AMM math (swap invariant, LP-share accounting,
-  rounding direction of the fixed-point library).
-- Message-flow analysis of the async / bounce model and sender-address gating.
+- An invariant test suite written against your contract (Blueprint + @ton/sandbox)
+- Commit-pinned scope: the suite targets one specific commit of your repository
+- Reproduction instructions: the exact commands we used, from clone to run
+- The actual run output from our environment
+- The suite is yours: it lands in your repo and keeps working after the engagement
 
-### Threat model (top vectors checked)
-1. Fake-jetton / spoofed transfer_notification (token-identity confusion)
-2. Bounce / state-desync between wallet and pool
-3. Economic invariant / share-price / LP-supply manipulation
-4. Access control / privilege escalation on payout paths
-5. Async race conditions across message hops
+Typical properties we encode: balance conservation, total-supply integrity, monotonic counters, access-control boundaries, jetton identity consistency across async bounces.
 
-### Result
-No critical- or high-severity vulnerabilities were identified within the
-reviewed scope. Key defensive properties confirmed during review:
-- Payout paths (pay_to / pay_vault / vault_pay_to) are gated by deterministic
-  sender-address reconstruction — pool/vault spoofing is not possible.
-- Token identity is keyed by the sender address of the jetton wallet, so a
-  fake jetton is isolated to a differently-keyed (empty) pool and cannot
-  release real assets.
-- Fixed-point math rounds against the user where it matters, preventing
-  rounding-based value extraction at scale.
+## What this is not
 
-Design / centralization properties (admin-configurable parameters) were noted
-as documented assumptions, not vulnerabilities, as they are out of a standard
-bug-bounty scope.
+This is not a security audit and not a sign-off. We do not claim your contract is safe, and we do not issue audit reports. We deliver testing infrastructure: executable checks of the properties your contract must preserve. A passing suite means the invariants held under the tested sequences — nothing more, nothing less.
 
-### Tooling used
-FunC / Tolk toolchain, Blueprint, @ton/sandbox, custom PoC test harness,
-manual invariant analysis.
+Firms quote $5,000+ for a simple token audit and $20,000–60,000 for a DeFi protocol. We do less, and we charge an order of magnitude less.
 
-### Reproducible artifacts
-- [STON.fi DEX v2 invariant test suites](artifacts/stonfi-v2-invariant-tests)
-  - 5 suites and 6 tests against pinned upstream commit `af0a955cc835af9697cd383e201fefcbe1a6a87e`
-  - Constant-product, stableswap, weighted constant-product and weighted-stableswap coverage
-  - Production-relevant and reference-only tests are separated explicitly
+## How an engagement works
 
-## Services
-Independent security review of TON / FunC / Tolk smart contracts:
-jetton, vault, vesting, minter, staking, and DEX-style contracts.
-Fixed-price reviews of individual contracts available.
+1. You point us at a repository and a commit.
+2. We confirm scope in writing: which contracts, which properties, fixed price.
+3. 50% prepayment in USDT. Day 5: you receive the suite, run instructions, and our run output. 50% on delivery.
 
-Contact: cpljoshrayperson@yandex.ru
+## Public artifacts
+
+**case-01 — STON.fi DEX core v2 invariant suite**
+Suite executed against ston-fi/dex-core-v2 at commit af0a955 (~4,355 LoC FunC, GPL-3.0 upstream).
+Result: 5/5 suites passing, 6/6 tests, 250 weighted-stableswap cases and 250 constant-sum cases, 0 divergences from the reference model.
+Artifacts and full run output: artifacts/stonfi-v2-invariant-tests/
+
+**case-02 — EVAA protocol review notes**
+Structured review of evaafi/contracts v8 at commit ef9ea25 (~10,800 LoC FunC), the snapshot previously audited by Trail of Bits. Focus on out-of-audit-scope surfaces: price parsing, admin flows, liquidation branches. Factual observations only, no vulnerability claims.
+See case-02-evaa-review.md.
+
+## Contact
+
+Email: cpljoshrayperson@yandex.ru
+Scoped quote within 24 hours.
