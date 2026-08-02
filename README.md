@@ -59,4 +59,4 @@ Independent security review of TON / FunC / Tolk smart contracts:
 jetton, vault, vesting, minter, staking, and DEX-style contracts.
 Fixed-price reviews of individual contracts available.
 
-Contact: iruslan1203@gmail.com
+Contact: cpljoshrayperson@yandex.ru
